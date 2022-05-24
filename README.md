@@ -1,47 +1,25 @@
 EventSource polyfill - https://html.spec.whatwg.org/multipage/server-sent-events.html#server-sent-events
 ========================================================
 
-Installing:
------------
+## Why does this exist?
 
-You can get the code from npm or bower:
+This repo was forked since the original repo unfortunately added a malicious commit and thus can’t be relied upon anymore.
 
-```
-npm install event-source-polyfill
-```
+You can find more information on [the commit that introduced the issue](https://github.com/Yaffle/EventSource/commit/de137927e13d8afac153d2485152ccec48948a7a). The malicious commit has been entirely removed from this fork.
 
-```
-bower install event-source-polyfill
-```
+## Installing
 
-Just include `src/eventsource.js` or `src/eventsource.min.js` in your page to use the polyfill.
+For now, the only supported & encouraged way of installing is installing directly from git:
 
-
-Ionic2/Angular2 Installation:
------------------------------
-
-Unless a typescript definition file is created for this polyfill, this is how you would use it in an Ionic2 project.  It should (in theory) be very similar in an Angular2 project.
-
-```
-npm install event-source-polyfill
-```
-
-Add to (or create) src/app/polyfills.ts (path is relative to where polyfills.ts is) :
-```
-import 'path/to/event-source-polyfill/src/eventsource.min.js'
-```
-
-Add anywhere you need access to EventSourcePolyfill class : 
-
-```
-declare var EventSourcePolyfill: any;
+```bash
+yarn add https://github.com/labtwin-gmbh/EventSource#INSERT_LATEST_COMMIT_HASH_HERE
 ```
 
 Usage with webpack/browserify:
 ------------------------------
 
 ```javascript
-import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
+import { NativeEventSource, EventSourcePolyfill } from '@labtwin-gmbh/event-source-polyfill';
 
 const EventSource = NativeEventSource || EventSourcePolyfill;
 // OR: may also need to set as global property
@@ -243,7 +221,7 @@ With some dynamic imports it may work in node.js:
 
 Install the library and the dependency:
 `npm install @titelmedia/node-fetch`
-`npm install event-source-polyfill`
+`npm install @labtwin-gmbh/event-source-polyfill`
 
 x.js:
 ```javascript
@@ -251,7 +229,7 @@ x.js:
 import('@titelmedia/node-fetch').then(function (fetch) {
   globalThis.fetch = fetch.default;
   globalThis.Response = fetch.default.Response;
-  import('event-source-polyfill').then(function (x) {
+  import('@labtwin-gmbh/event-source-polyfill').then(function (x) {
     var es = new x.default.EventSourcePolyfill('http://localhost:8004/events');
     es.onerror = es.onopen = es.onmessage = function (event) {
       console.log(event.type + ': ' + event.data);
